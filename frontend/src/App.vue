@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useWorkflowStore } from '@/stores/workflow'
+import { onMounted } from "vue";
+import { useWorkflowStore } from "@/stores/workflow";
 
-const store = useWorkflowStore()
+const store = useWorkflowStore();
 
 onMounted(() => {
-  store.loadSortConfig()
-  store.fetchSteps()
-})
+  store.loadSortConfig();
+  store.fetchSteps();
+});
 </script>
 
 <template>
@@ -18,7 +18,7 @@ onMounted(() => {
       </ElHeader>
       <ElMain>
         <ElRow v-if="store.loading" justify="center">
-          <ElCol :span="24" style="text-align: center; padding: 50px;">
+          <ElCol :span="24" style="text-align: center; padding: 50px">
             <ElIcon class="is-loading" :size="40">
               <i class="fa fa-spinner fa-spin"></i>
             </ElIcon>
@@ -27,7 +27,10 @@ onMounted(() => {
         </ElRow>
         <ElRow v-else :gutter="20">
           <ElCol :span="24">
-            <p>Проект успешно настроен! Количество шагов: {{ store.steps.length }}</p>
+            <p>
+              Проект успешно настроен! Количество шагов:
+              {{ store.steps.length }}
+            </p>
           </ElCol>
         </ElRow>
       </ElMain>
@@ -58,4 +61,3 @@ onMounted(() => {
   background-color: #f5f5f5;
 }
 </style>
-

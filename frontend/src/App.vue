@@ -17,7 +17,12 @@ onMounted(() => {
       <ElAside width="50%" class="left-panel">
         <div class="panel-header">
           <h2>Структура рабочего процесса</h2>
-          <ElButton type="primary" icon="Plus"> Создать состояние </ElButton>
+          <ElButton type="primary">
+            <template #icon>
+              <i class="fa fa-plus"></i>
+            </template>
+            Создать состояние
+          </ElButton>
         </div>
         <div class="table-container">
           <!-- Таблица будет здесь -->

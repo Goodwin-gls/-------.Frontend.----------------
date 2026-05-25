@@ -1,12 +1,17 @@
-import { Router, type Request, type Response, type NextFunction } from 'express';
+import {
+  Router,
+  type Request,
+  type Response,
+  type NextFunction,
+} from "express";
 
 import {
   WorkflowNotFoundError,
   WorkflowStepNotFoundError,
-} from '../entities/workflowErrors';
-import type { WorkflowRepository } from '../entities/workflowRepository';
+} from "../entities/workflowErrors";
+import type { WorkflowRepository } from "../entities/workflowRepository";
 
-const DEFAULT_WORKFLOW = 'wf1';
+const DEFAULT_WORKFLOW = "wf1";
 
 /** Контроллер для процессов (workflow). */
 export function createGetDataRouter(repository: WorkflowRepository): Router {
@@ -42,11 +47,11 @@ export function createGetDataRouter(repository: WorkflowRepository): Router {
    *               $ref: '#/components/schemas/Error'
    */
   router.get(
-    '/get',
+    "/get",
     async (req: Request, res: Response, next: NextFunction) => {
       const wfNameParam = req.query.wfName;
       const wfName =
-        typeof wfNameParam === 'string' && wfNameParam.length > 0
+        typeof wfNameParam === "string" && wfNameParam.length > 0
           ? wfNameParam
           : DEFAULT_WORKFLOW;
 
@@ -105,29 +110,27 @@ export function createGetDataRouter(repository: WorkflowRepository): Router {
    *               $ref: '#/components/schemas/Error'
    */
   router.post(
-    '/changeStepXY',
+    "/changeStepXY",
     async (req: Request, res: Response, next: NextFunction) => {
       const wfName =
-        typeof req.body?.wfName === 'string' && req.body.wfName.length > 0
+        typeof req.body?.wfName === "string" && req.body.wfName.length > 0
           ? req.body.wfName
           : DEFAULT_WORKFLOW;
 
       const { stepInitialIndex, x, y } = req.body ?? {};
       if (
-        typeof stepInitialIndex !== 'number' ||
+        typeof stepInitialIndex !== "number" ||
         !Number.isInteger(stepInitialIndex)
       ) {
-        res
-          .status(400)
-          .json({ error: 'stepInitialIndex must be an integer' });
+        res.status(400).json({ error: "stepInitialIndex must be an integer" });
         return;
       }
-      if (typeof x !== 'number' || !Number.isFinite(x)) {
-        res.status(400).json({ error: 'x must be a finite number' });
+      if (typeof x !== "number" || !Number.isFinite(x)) {
+        res.status(400).json({ error: "x must be a finite number" });
         return;
       }
-      if (typeof y !== 'number' || !Number.isFinite(y)) {
-        res.status(400).json({ error: 'y must be a finite number' });
+      if (typeof y !== "number" || !Number.isFinite(y)) {
+        res.status(400).json({ error: "y must be a finite number" });
         return;
       }
 
@@ -170,7 +173,7 @@ export function createGetDataRouter(repository: WorkflowRepository): Router {
    *                 description: Название процесса (и файла процесса, без расширения .json)
    *               stepInitialIndex:
    *                 type: integer
-   *                 description initialIndex шага процесса, название которого нужно изменить
+   *                 description: initialIndex шага процесса, название которого нужно изменить
    *               stepName:
    *                 type: string
    *                 description: Новое значение поля name шага процесса
@@ -189,25 +192,23 @@ export function createGetDataRouter(repository: WorkflowRepository): Router {
    *               $ref: '#/components/schemas/Error'
    */
   router.post(
-    '/changeStepName',
+    "/changeStepName",
     async (req: Request, res: Response, next: NextFunction) => {
       const wfName =
-        typeof req.body?.wfName === 'string' && req.body.wfName.length > 0
+        typeof req.body?.wfName === "string" && req.body.wfName.length > 0
           ? req.body.wfName
           : DEFAULT_WORKFLOW;
 
       const { stepInitialIndex, stepName } = req.body ?? {};
       if (
-        typeof stepInitialIndex !== 'number' ||
+        typeof stepInitialIndex !== "number" ||
         !Number.isInteger(stepInitialIndex)
       ) {
-        res
-          .status(400)
-          .json({ error: 'stepInitialIndex must be an integer' });
+        res.status(400).json({ error: "stepInitialIndex must be an integer" });
         return;
       }
-      if (typeof stepName !== 'string' || stepName.trim().length === 0) {
-        res.status(400).json({ error: 'stepName must be a non-empty string' });
+      if (typeof stepName !== "string" || stepName.trim().length === 0) {
+        res.status(400).json({ error: "stepName must be a non-empty string" });
         return;
       }
 
@@ -252,7 +253,7 @@ export function createGetDataRouter(repository: WorkflowRepository): Router {
    *                 description: name нового шага процесса
    *               x:
    *                 type: number
-   *                 description: x нового шага процесса  
+   *                 description: x нового шага процесса
    *               y:
    *                 type: number
    *                 description: y нового шага процесса
@@ -274,30 +275,30 @@ export function createGetDataRouter(repository: WorkflowRepository): Router {
    *               $ref: '#/components/schemas/Error'
    */
   router.post(
-    '/createStep',
+    "/createStep",
     async (req: Request, res: Response, next: NextFunction) => {
       const wfName = req.body?.wfName;
-      if (typeof wfName !== 'string' || wfName.length === 0) {
-        res.status(400).json({ error: 'wfName is required' });
+      if (typeof wfName !== "string" || wfName.length === 0) {
+        res.status(400).json({ error: "wfName is required" });
         return;
       }
 
       const { stepName, x, y } = req.body ?? {};
-      if (typeof stepName !== 'string' || stepName.trim().length === 0) {
-        res.status(400).json({ error: 'stepName must be a non-empty string' });
+      if (typeof stepName !== "string" || stepName.trim().length === 0) {
+        res.status(400).json({ error: "stepName must be a non-empty string" });
         return;
       }
-      if (typeof x !== 'number' || !Number.isFinite(x)) {
-        res.status(400).json({ error: 'x must be a finite number' });
+      if (typeof x !== "number" || !Number.isFinite(x)) {
+        res.status(400).json({ error: "x must be a finite number" });
         return;
       }
-      if (typeof y !== 'number' || !Number.isFinite(y)) {
-        res.status(400).json({ error: 'y must be a finite number' });
+      if (typeof y !== "number" || !Number.isFinite(y)) {
+        res.status(400).json({ error: "y must be a finite number" });
         return;
       }
 
       const color =
-        typeof req.body?.color === 'string' && req.body.color.trim().length > 0
+        typeof req.body?.color === "string" && req.body.color.trim().length > 0
           ? req.body.color.trim()
           : undefined;
 
@@ -346,7 +347,7 @@ export function createGetDataRouter(repository: WorkflowRepository): Router {
    *         content:
    *           application/json:
    *             schema:
-   *               $ref: '#/components/schemas/Workflow'  
+   *               $ref: '#/components/schemas/Workflow'
    *       404:
    *         description: Процесс или шаг не найден
    *         content:
@@ -355,22 +356,20 @@ export function createGetDataRouter(repository: WorkflowRepository): Router {
    *               $ref: '#/components/schemas/Error'
    */
   router.post(
-    '/deleteStep',
+    "/deleteStep",
     async (req: Request, res: Response, next: NextFunction) => {
       const wfName = req.body?.wfName;
-      if (typeof wfName !== 'string' || wfName.length === 0) {
-        res.status(400).json({ error: 'wfName is required' });
+      if (typeof wfName !== "string" || wfName.length === 0) {
+        res.status(400).json({ error: "wfName is required" });
         return;
       }
 
       const { stepInitialIndex } = req.body ?? {};
       if (
-        typeof stepInitialIndex !== 'number' ||
+        typeof stepInitialIndex !== "number" ||
         !Number.isInteger(stepInitialIndex)
       ) {
-        res
-          .status(400)
-          .json({ error: 'stepInitialIndex must be an integer' });
+        res.status(400).json({ error: "stepInitialIndex must be an integer" });
         return;
       }
 

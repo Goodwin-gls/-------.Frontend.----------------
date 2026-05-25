@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useWorkflowStore } from "@/stores/workflow";
+import WorkflowDiagram from "@/components/Diagram/WorkflowDiagram.vue";
 
 const store = useWorkflowStore();
 
@@ -34,9 +35,8 @@ onMounted(() => {
       <!-- Right Panel: Diagram -->
       <ElMain class="right-panel">
         <div class="diagram-container">
-          <!-- Диаграмма будет здесь -->
-          <p v-if="store.loading">Загрузка...</p>
-          <p v-else>Диаграмма</p>
+          <WorkflowDiagram v-if="!store.loading" />
+          <p v-else>Загрузка диаграммы...</p>
         </div>
       </ElMain>
     </ElContainer>
@@ -97,11 +97,9 @@ onMounted(() => {
 .diagram-container {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #fafafa;
   border-radius: 4px;
-  border: 1px dashed #d0d0d0;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
 }
 </style>

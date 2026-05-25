@@ -12,26 +12,26 @@ onMounted(() => {
 
 <template>
   <div class="app">
-    <el-container>
-      <el-header>
+    <ElContainer>
+      <ElHeader>
         <h1>Workflow Editor</h1>
-      </el-header>
-      <el-main>
-        <el-row v-if="store.loading" justify="center">
-          <el-col :span="24" style="text-align: center; padding: 50px;">
-            <el-icon class="is-loading" :size="40">
+      </ElHeader>
+      <ElMain>
+        <ElRow v-if="store.loading" justify="center">
+          <ElCol :span="24" style="text-align: center; padding: 50px;">
+            <ElIcon class="is-loading" :size="40">
               <i class="fa fa-spinner fa-spin"></i>
-            </el-icon>
+            </ElIcon>
             <p>Загрузка...</p>
-          </el-col>
-        </el-row>
-        <el-row v-else :gutter="20">
-          <el-col :span="24">
+          </ElCol>
+        </ElRow>
+        <ElRow v-else :gutter="20">
+          <ElCol :span="24">
             <p>Проект успешно настроен! Количество шагов: {{ store.steps.length }}</p>
-          </el-col>
-        </el-row>
-      </el-main>
-    </el-container>
+          </ElCol>
+        </ElRow>
+      </ElMain>
+    </ElContainer>
   </div>
 </template>
 

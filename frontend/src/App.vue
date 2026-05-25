@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import { useWorkflowStore } from "@/stores/workflow";
 import WorkflowDiagram from "@/components/Diagram/WorkflowDiagram.vue";
+import WorkflowTable from "@/components/Table/WorkflowTable.vue";
 
 const store = useWorkflowStore();
 
@@ -26,9 +27,8 @@ onMounted(() => {
           </ElButton>
         </div>
         <div :class="$style.tableContainer">
-          <!-- Таблица будет здесь -->
-          <p v-if="store.loading">Загрузка...</p>
-          <p v-else>Таблица состояний ({{ store.steps.length }} шагов)</p>
+          <WorkflowTable v-if="!store.loading" />
+          <p v-else>Загрузка...</p>
         </div>
       </ElAside>
 

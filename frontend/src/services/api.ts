@@ -24,23 +24,29 @@ export const workflowApi = {
   async changeStepName(
     wfName: string,
     stepInitialIndex: number,
-    name: string,
+    stepName: string,
   ): Promise<void> {
     await api.post("/workflow/changeStepName", {
       wfName,
       stepInitialIndex,
-      name,
+      stepName,
     });
   },
 
   async createStep(
     wfName: string,
-    step: Omit<WorkflowStep, "initialIndex">,
+    step: Omit<WorkflowStep, "initialIndex" | "nextSteps">,
   ): Promise<void> {
-    await api.post("/workflow/createStep", { wfName, ...step });
+    await api.post("/workflow/createStep", {
+      wfName,
+      stepName: step.name,
+      x: step.x,
+      y: step.y,
+      color: step.color,
+    });
   },
 
-  async deleteStep(wfName: string, initialIndex: number): Promise<void> {
-    await api.post("/workflow/deleteStep", { wfName, initialIndex });
+  async deleteStep(wfName: string, stepInitialIndex: number): Promise<void> {
+    await api.post("/workflow/deleteStep", { wfName, stepInitialIndex });
   },
 };

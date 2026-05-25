@@ -109,12 +109,11 @@ export const useWorkflowStore = defineStore("workflow", () => {
       newName = `Шаг ${counter}`;
     }
 
-    const newStep: Omit<WorkflowStep, "initialIndex"> = {
+    const newStep: Omit<WorkflowStep, "initialIndex" | "nextSteps"> = {
       name: newName,
       x: 0,
       y: 0,
       color: "#FFFFFF",
-      nextSteps: [],
     };
 
     try {

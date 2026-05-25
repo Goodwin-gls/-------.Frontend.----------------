@@ -12,27 +12,29 @@ onMounted(() => {
 
 <template>
   <div class="app">
-    <ElContainer>
-      <ElHeader>
-        <h1>Workflow Editor</h1>
-      </ElHeader>
-      <ElMain>
-        <ElRow v-if="store.loading" justify="center">
-          <ElCol :span="24" style="text-align: center; padding: 50px">
-            <ElIcon class="is-loading" :size="40">
-              <i class="fa fa-spinner fa-spin"></i>
-            </ElIcon>
-            <p>Загрузка...</p>
-          </ElCol>
-        </ElRow>
-        <ElRow v-else :gutter="20">
-          <ElCol :span="24">
-            <p>
-              Проект успешно настроен! Количество шагов:
-              {{ store.steps.length }}
-            </p>
-          </ElCol>
-        </ElRow>
+    <ElContainer direction="horizontal">
+      <!-- Left Panel: Table -->
+      <ElAside width="50%" class="left-panel">
+        <div class="panel-header">
+          <h2>Workflow: {{ store.workflowName }}</h2>
+          <ElButton type="primary" :icon="'Plus'">
+            Создать состояние
+          </ElButton>
+        </div>
+        <div class="table-container">
+          <!-- Таблица будет здесь -->
+          <p v-if="store.loading">Загрузка...</p>
+          <p v-else>Таблица состояний ({{ store.steps.length }} шагов)</p>
+        </div>
+      </ElAside>
+
+      <!-- Right Panel: Diagram -->
+      <ElMain class="right-panel">
+        <div class="diagram-container">
+          <!-- Диаграмма будет здесь -->
+          <p v-if="store.loading">Загрузка...</p>
+          <p v-else>Диаграмма</p>
+        </div>
       </ElMain>
     </ElContainer>
   </div>
@@ -42,22 +44,61 @@ onMounted(() => {
 .app {
   width: 100%;
   height: 100vh;
+  padding: 50px;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
 }
 
-.el-header {
-  background-color: #409eff;
-  color: white;
-  display: flex;
-  align-items: center;
+.el-container {
+  height: 100%;
+  gap: 20px;
+}
 
-  h1 {
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+
+  h2 {
     margin: 0;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
+    color: #333;
   }
 }
 
-.el-main {
-  background-color: #f5f5f5;
+.table-container {
+  flex: 1;
+  overflow: auto;
+}
+
+.right-panel {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.diagram-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+  border-radius: 4px;
+  border: 1px dashed #d0d0d0;
 }
 </style>

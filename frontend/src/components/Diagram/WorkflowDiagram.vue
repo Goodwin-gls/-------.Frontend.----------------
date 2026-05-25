@@ -104,7 +104,7 @@ watch(
 
 :deep(.vue-flow__node) {
   cursor: pointer;
-  // transition: all 0.2s ease;
+  width: auto !important;
 
   &:hover {
     transform: scale(1.05);

@@ -12,11 +12,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="app">
+  <div :class="$style.app">
     <ElContainer direction="horizontal">
       <!-- Left Panel: Table -->
-      <ElAside width="50%" class="left-panel">
-        <div class="panel-header">
+      <ElAside width="50%" :class="$style.leftPanel">
+        <div :class="$style.panelHeader">
           <h2>Структура рабочего процесса</h2>
           <ElButton type="primary">
             <template #icon>
@@ -25,7 +25,7 @@ onMounted(() => {
             Создать состояние
           </ElButton>
         </div>
-        <div class="table-container">
+        <div :class="$style.tableContainer">
           <!-- Таблица будет здесь -->
           <p v-if="store.loading">Загрузка...</p>
           <p v-else>Таблица состояний ({{ store.steps.length }} шагов)</p>
@@ -33,8 +33,8 @@ onMounted(() => {
       </ElAside>
 
       <!-- Right Panel: Diagram -->
-      <ElMain class="right-panel">
-        <div class="diagram-container">
+      <ElMain :class="$style.rightPanel">
+        <div :class="$style.diagramContainer">
           <WorkflowDiagram v-if="!store.loading" />
           <p v-else>Загрузка диаграммы...</p>
         </div>
@@ -43,21 +43,21 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .app {
   width: 100%;
   height: 100vh;
   padding: 50px;
   box-sizing: border-box;
   background-color: #f5f5f5;
+
+  :global(.el-container) {
+    height: 100%;
+    gap: 20px;
+  }
 }
 
-.el-container {
-  height: 100%;
-  gap: 20px;
-}
-
-.left-panel {
+.leftPanel {
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -66,7 +66,7 @@ onMounted(() => {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.panel-header {
+.panelHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -82,19 +82,19 @@ onMounted(() => {
   }
 }
 
-.table-container {
+.tableContainer {
   flex: 1;
   overflow: auto;
 }
 
-.right-panel {
+.rightPanel {
   background-color: white;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.diagram-container {
+.diagramContainer {
   width: 100%;
   height: 100%;
   background-color: #fafafa;

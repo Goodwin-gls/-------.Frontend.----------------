@@ -80,7 +80,7 @@ watch(
 </script>
 
 <template>
-  <div class="diagram">
+  <div :class="$style.diagram">
     <VueFlow
       :nodes="nodes"
       :edges="edges"
@@ -95,34 +95,34 @@ watch(
   </div>
 </template>
 
-<style scoped lang="scss">
+<style module lang="scss">
 .diagram {
   width: 100%;
   height: 100%;
   position: relative;
-}
 
-:deep(.vue-flow__node) {
-  cursor: pointer;
-  width: auto !important;
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-}
-
-:deep(.vue-flow__edge-path) {
-  transition: stroke 0.2s ease;
-}
-
-:deep(.vue-flow__controls) {
-  button {
-    border: 1px solid #ddd;
-    background: white;
+  :global(.vue-flow__node) {
+    cursor: pointer;
+    width: auto !important;
 
     &:hover {
-      background: #f5f5f5;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  :global(.vue-flow__edge-path) {
+    transition: stroke 0.2s ease;
+  }
+
+  :global(.vue-flow__controls) {
+    button {
+      border: 1px solid #ddd;
+      background: white;
+
+      &:hover {
+        background: #f5f5f5;
+      }
     }
   }
 }

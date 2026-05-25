@@ -16,10 +16,8 @@ onMounted(() => {
       <!-- Left Panel: Table -->
       <ElAside width="50%" class="left-panel">
         <div class="panel-header">
-          <h2>Workflow: {{ store.workflowName }}</h2>
-          <ElButton type="primary" :icon="'Plus'">
-            Создать состояние
-          </ElButton>
+          <h2>Структура рабочего процесса</h2>
+          <ElButton type="primary" icon="Plus"> Создать состояние </ElButton>
         </div>
         <div class="table-container">
           <!-- Таблица будет здесь -->

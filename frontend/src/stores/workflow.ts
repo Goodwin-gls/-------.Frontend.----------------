@@ -177,6 +177,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
     sortConfig,
     selectedStep,
     filteredSteps,
+    workflowName,
     fetchSteps,
     updateStepCoordinates,
     updateStepName,

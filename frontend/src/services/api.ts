@@ -43,7 +43,7 @@ export const workflowApi = {
   async createStep(
     wfName: string,
     step: Omit<WorkflowStep, "initialIndex" | "nextSteps">,
-  ): Promise<Workflow> {
+  ): Promise<WorkflowStep> {
     const response = await api.post("/workflow/createStep", {
       wfName,
       stepName: step.name,

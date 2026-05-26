@@ -24,7 +24,6 @@ const handleEdit = async () => {
 const handleDelete = async (initialIndex: number) => {
   console.log("Delete step:", initialIndex);
   await store.deleteStep(initialIndex);
-  // TODO: Implement delete functionality
 };
 
 const debouncedDelete = debounce(handleDelete, 300);

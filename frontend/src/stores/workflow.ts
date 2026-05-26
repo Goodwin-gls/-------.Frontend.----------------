@@ -125,11 +125,11 @@ export const useWorkflowStore = defineStore("workflow", () => {
     };
 
     try {
-      const workflow = await workflowApi.createStep(
+      const createdStep = await workflowApi.createStep(
         workflowName.value,
         newStep,
       );
-      steps.value = workflow.steps;
+      steps.value.push(createdStep);
     } catch (error) {
       console.error("Failed to add step:", error);
       throw error;

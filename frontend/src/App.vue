@@ -3,8 +3,13 @@ import { onMounted } from "vue";
 import { useWorkflowStore } from "@/stores/workflow";
 import WorkflowDiagram from "@/components/Diagram/WorkflowDiagram.vue";
 import WorkflowTable from "@/components/Table/WorkflowTable.vue";
+import { debounce } from "./utils/debounce";
 
 const store = useWorkflowStore();
+
+const handleCreateStep = debounce(async () => {
+  await store.addStep();
+});
 
 onMounted(() => {
   store.loadSortConfig();
@@ -19,7 +24,7 @@ onMounted(() => {
       <ElAside width="50%" :class="$style.leftPanel">
         <div :class="$style.panelHeader">
           <h2>Структура рабочего процесса</h2>
-          <ElButton type="primary">
+          <ElButton type="primary" @click="handleCreateStep">
             <template #icon>
               <i class="fa fa-plus"></i>
             </template>

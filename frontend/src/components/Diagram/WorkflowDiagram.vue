@@ -69,14 +69,6 @@ onNodeDragStop((event) => {
   // Обновляем координаты в store и на сервере
   store.updateStepCoordinates(nodeId, Math.round(x), Math.round(y));
 });
-
-// Следим за изменением выделенного элемента для обновления стилей
-watch(
-  () => store.selectedStepId,
-  () => {
-    // Vue Flow автоматически обновит стили через computed nodes
-  },
-);
 </script>
 
 <template>

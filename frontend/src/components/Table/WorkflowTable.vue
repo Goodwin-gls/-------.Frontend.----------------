@@ -5,13 +5,19 @@ import { default as WorkflowTableSort } from "./WorkflowTableSort.vue";
 
 const store = useWorkflowStore();
 
+const dialogVisible = ref(false);
+const editedName = ref("");
+const editedStepIndex = ref<number | null>(null);
+
 const handleRowClick = (initialIndex: number) => {
   store.selectStep(initialIndex);
 };
 
-const handleEdit = (initialIndex: number) => {
-  console.log("Edit step:", initialIndex);
-  // TODO: Implement edit functionality
+const handleEdit = async () => {
+  if (editedStepIndex.value !== null) {
+    await store.updateStepName(editedStepIndex.value, editedName.value);
+  }
+  dialogVisible.value = false;
 };
 
 const handleDelete = (initialIndex: number) => {
@@ -21,6 +27,12 @@ const handleDelete = (initialIndex: number) => {
 
 const handleSort = (column: string) => {
   store.setSortConfig(column);
+};
+
+const showEditDialog = (initialIndex: number) => {
+  editedName.value = store.stepsDict[initialIndex]?.name || "";
+  editedStepIndex.value = initialIndex;
+  dialogVisible.value = true;
 };
 </script>
 
@@ -108,7 +120,7 @@ const handleSort = (column: string) => {
           <td :class="$style.tdActions">
             <ElButton
               text
-              @click.stop="handleEdit(step.initialIndex)"
+              @click.stop="showEditDialog(step.initialIndex)"
               color="#bababa"
             >
               <template #icon>
@@ -128,6 +140,22 @@ const handleSort = (column: string) => {
         </tr>
       </tbody>
     </table>
+    <ElDialog v-model="dialogVisible" width="400px" :center="true">
+      <template #header>
+        <span>Изменить имя состояния</span>
+      </template>
+      <ElForm>
+        <ElFormItem label="Имя состояния">
+          <ElInput v-model="editedName" />
+        </ElFormItem>
+      </ElForm>
+      <template #footer>
+        <span class="dialog-footer">
+          <ElButton @click="dialogVisible = false">Отмена</ElButton>
+          <ElButton type="primary" @click="handleEdit">Сохранить</ElButton>
+        </span>
+      </template>
+    </ElDialog>
   </div>
 </template>
 

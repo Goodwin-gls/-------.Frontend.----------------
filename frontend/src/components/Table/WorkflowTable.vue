@@ -51,7 +51,7 @@ const getStepColor = (initialIndex: number) => {
           @click="handleRowClick(step.initialIndex)"
         >
           <td :class="$style.tdLeft">
-            <i class="fa fa-file" :style="{ color: step.color }"></i>
+            <i class="fa-regular fa-file" :style="{ color: step.color }"></i>
             <span :class="$style.stepName">{{ step.name }}</span>
           </td>
           <td :class="$style.tdRight">{{ step.x }}</td>
@@ -64,14 +64,14 @@ const getStepColor = (initialIndex: number) => {
               >
                 <span :class="$style.transitionItem">
                   <i
-                    class="fa fa-file"
+                    class="fa-regular fa-file"
                     :style="{ color: getStepColor(nextStepIndex) }"
                   ></i>
                   <span :class="$style.transitionName">{{
                     getStepName(nextStepIndex)
                   }}</span>
+                  <span v-if="index < step.nextSteps.length - 1">, </span>
                 </span>
-                <span v-if="index < step.nextSteps.length - 1">, </span>
               </template>
               <span
                 v-if="step.nextSteps.length === 0"
@@ -87,7 +87,7 @@ const getStepColor = (initialIndex: number) => {
               color="#bababa"
             >
               <template #icon>
-                <i class="fa fa-pencil"></i>
+                <i class="fa-solid fa-pencil"></i>
               </template>
             </ElButton>
             <ElButton
@@ -96,7 +96,7 @@ const getStepColor = (initialIndex: number) => {
               color="#bababa"
             >
               <template #icon>
-                <i class="fa fa-trash"></i>
+                <i class="fa-solid fa-trash"></i>
               </template>
             </ElButton>
           </td>
@@ -124,12 +124,18 @@ const getStepColor = (initialIndex: number) => {
   position: sticky;
   top: 0;
   z-index: 10;
+  width: 100%;
+
+  tr {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 0.2fr 0.2fr 1fr 100px;
+  }
 
   th {
     padding: 12px 16px;
     font-weight: 600;
     color: #666;
-    text-align: left;
     white-space: nowrap;
   }
 }
@@ -148,7 +154,11 @@ const getStepColor = (initialIndex: number) => {
 }
 
 .tbody {
+  width: 100%;
   tr {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 0.2fr 0.2fr 1fr 100px;
     background-color: white;
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -162,7 +172,9 @@ const getStepColor = (initialIndex: number) => {
 .row {
   td {
     padding: 12px 16px;
-    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
   }
 }
 
@@ -180,7 +192,7 @@ const getStepColor = (initialIndex: number) => {
 }
 
 .tdRight {
-  text-align: right;
+  justify-content: flex-end;
   color: #666;
 }
 
@@ -211,15 +223,14 @@ const getStepColor = (initialIndex: number) => {
 .transitions {
   display: flex;
   align-items: center;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .transitionItem {
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
+  overflow: hidden;
 
   i {
     margin-right: 6px;

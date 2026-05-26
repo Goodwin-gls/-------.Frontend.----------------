@@ -31,6 +31,11 @@ onMounted(() => {
             Создать состояние
           </ElButton>
         </div>
+        <ElInput
+          v-model="store.searchQuery"
+          placeholder="Поиск..."
+          @input="store.setSearchQuery"
+        />
         <div :class="$style.tableContainer">
           <WorkflowTable v-if="!store.loading" />
           <p v-else>Загрузка...</p>

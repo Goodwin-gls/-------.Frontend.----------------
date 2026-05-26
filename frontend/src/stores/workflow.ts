@@ -17,6 +17,14 @@ export const useWorkflowStore = defineStore("workflow", () => {
     steps.value.find((s) => s.initialIndex === selectedStepId.value),
   );
 
+  const stepsDict = computed(() => {
+    const dict: Record<number, WorkflowStep> = {};
+    steps.value.forEach((step) => {
+      dict[step.initialIndex] = step;
+    });
+    return dict;
+  });
+
   const filteredSteps = computed(() => {
     let result = steps.value;
 
@@ -35,6 +43,10 @@ export const useWorkflowStore = defineStore("workflow", () => {
       if (typeof aVal === "string") {
         aVal = aVal.toLowerCase();
         bVal = bVal.toLowerCase();
+
+        return direction === "asc"
+          ? aVal.localeCompare(bVal)
+          : bVal.localeCompare(aVal);
       }
 
       if (aVal < bVal) return direction === "asc" ? -1 : 1;
@@ -155,7 +167,11 @@ export const useWorkflowStore = defineStore("workflow", () => {
     searchQuery.value = query;
   }
 
-  function setSortConfig(column: string, direction: "asc" | "desc") {
+  function setSortConfig(column: string) {
+    const direction =
+      sortConfig.value.column === column && sortConfig.value.direction === "asc"
+        ? "desc"
+        : "asc";
     sortConfig.value = { column, direction };
     // Save to localStorage
     localStorage.setItem("workflow-sort", JSON.stringify(sortConfig.value));
@@ -175,6 +191,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
   return {
     steps,
     selectedStepId,
+    stepsDict,
     loading,
     searchQuery,
     sortConfig,

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useWorkflowStore } from "@/stores/workflow";
 
+import { default as WorkflowTableSort } from "./WorkflowTableSort.vue";
+
 const store = useWorkflowStore();
 
 const handleRowClick = (initialIndex: number) => {
@@ -26,6 +28,10 @@ const getStepColor = (initialIndex: number) => {
   const step = store.steps.find((s) => s.initialIndex === initialIndex);
   return step?.color || "#666666";
 };
+
+const handleSort = (column: string) => {
+  store.setSortConfig(column);
+};
 </script>
 
 <template>
@@ -33,9 +39,36 @@ const getStepColor = (initialIndex: number) => {
     <table :class="$style.table">
       <thead :class="$style.thead">
         <tr>
-          <th :class="$style.thLeft">Состояние</th>
-          <th :class="$style.thRight">x</th>
-          <th :class="$style.thRight">y</th>
+          <th
+            :class="[$style.thLeft, $style.sortable]"
+            @click="handleSort('name')"
+          >
+            Состояние
+            <WorkflowTableSort
+              v-if="store.sortConfig.column === 'name'"
+              :direction="store.sortConfig.direction"
+            />
+          </th>
+          <th
+            :class="[$style.thRight, $style.sortable]"
+            @click="handleSort('x')"
+          >
+            x
+            <WorkflowTableSort
+              v-if="store.sortConfig.column === 'x'"
+              :direction="store.sortConfig.direction"
+            />
+          </th>
+          <th
+            :class="[$style.thRight, $style.sortable]"
+            @click="handleSort('y')"
+          >
+            y
+            <WorkflowTableSort
+              v-if="store.sortConfig.column === 'y'"
+              :direction="store.sortConfig.direction"
+            />
+          </th>
           <th :class="$style.thLeft">Переходы</th>
           <th :class="$style.thActions"></th>
         </tr>
@@ -133,10 +166,21 @@ const getStepColor = (initialIndex: number) => {
   }
 
   th {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     padding: 12px 16px;
     font-weight: 600;
     color: #666;
     white-space: nowrap;
+  }
+}
+
+.sortable {
+  cursor: pointer;
+
+  &:hover {
+    color: #409eff;
   }
 }
 
@@ -145,7 +189,7 @@ const getStepColor = (initialIndex: number) => {
 }
 
 .thRight {
-  text-align: right;
+  justify-content: flex-end;
 }
 
 .thActions {

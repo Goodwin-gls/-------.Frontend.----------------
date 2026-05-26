@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useWorkflowStore } from "@/stores/workflow";
+import { debounce } from "@/utils/debounce";
 
 import { default as WorkflowTableSort } from "./WorkflowTableSort.vue";
 
@@ -20,10 +21,13 @@ const handleEdit = async () => {
   dialogVisible.value = false;
 };
 
-const handleDelete = (initialIndex: number) => {
+const handleDelete = async (initialIndex: number) => {
   console.log("Delete step:", initialIndex);
+  await store.deleteStep(initialIndex);
   // TODO: Implement delete functionality
 };
+
+const debouncedDelete = debounce(handleDelete, 300);
 
 const handleSort = (column: string) => {
   store.setSortConfig(column);
@@ -129,7 +133,7 @@ const showEditDialog = (initialIndex: number) => {
             </ElButton>
             <ElButton
               text
-              @click.stop="handleDelete(step.initialIndex)"
+              @click.stop="debouncedDelete(step.initialIndex)"
               color="#bababa"
             >
               <template #icon>

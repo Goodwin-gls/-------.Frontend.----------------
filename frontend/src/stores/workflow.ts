@@ -115,14 +115,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
 
   async function addStep() {
     const maxIndex = Math.max(...steps.value.map((s) => s.initialIndex), -1);
-    let newName = `Шаг ${steps.value.length + 1}`;
-
-    // Ensure uniqueness
-    let counter = steps.value.length + 1;
-    while (steps.value.some((s) => s.name === newName)) {
-      counter++;
-      newName = `Шаг ${counter}`;
-    }
+    let newName = `Шаг ${maxIndex}`;
 
     const newStep: Omit<WorkflowStep, "initialIndex" | "nextSteps"> = {
       name: newName,

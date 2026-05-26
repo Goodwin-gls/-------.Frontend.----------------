@@ -19,16 +19,6 @@ const handleDelete = (initialIndex: number) => {
   // TODO: Implement delete functionality
 };
 
-const getStepName = (initialIndex: number) => {
-  const step = store.steps.find((s) => s.initialIndex === initialIndex);
-  return step?.name || "";
-};
-
-const getStepColor = (initialIndex: number) => {
-  const step = store.steps.find((s) => s.initialIndex === initialIndex);
-  return step?.color || "#666666";
-};
-
 const handleSort = (column: string) => {
   store.setSortConfig(column);
 };
@@ -98,10 +88,12 @@ const handleSort = (column: string) => {
                 <span :class="$style.transitionItem">
                   <i
                     class="fa-regular fa-file"
-                    :style="{ color: getStepColor(nextStepIndex) }"
+                    :style="{
+                      color: store.stepsDict[nextStepIndex]?.color || '#666',
+                    }"
                   ></i>
                   <span :class="$style.transitionName">{{
-                    getStepName(nextStepIndex)
+                    store.stepsDict[nextStepIndex]?.name || "Unknown"
                   }}</span>
                   <span v-if="index < step.nextSteps.length - 1">, </span>
                 </span>

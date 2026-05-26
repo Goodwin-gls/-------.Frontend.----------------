@@ -14,39 +14,54 @@ export const workflowApi = {
 
   async changeStepXY(
     wfName: string,
-    initialIndex: number,
+    stepInitialIndex: number,
     x: number,
     y: number,
-  ): Promise<void> {
-    await api.post("/workflow/changeStepXY", { wfName, initialIndex, x, y });
+  ): Promise<Workflow> {
+    const response = await api.post("/workflow/changeStepXY", {
+      wfName,
+      stepInitialIndex,
+      x,
+      y,
+    });
+    return response.data;
   },
 
   async changeStepName(
     wfName: string,
     stepInitialIndex: number,
     stepName: string,
-  ): Promise<void> {
-    await api.post("/workflow/changeStepName", {
+  ): Promise<Workflow> {
+    const response = await api.post("/workflow/changeStepName", {
       wfName,
       stepInitialIndex,
       stepName,
     });
+    return response.data;
   },
 
   async createStep(
     wfName: string,
     step: Omit<WorkflowStep, "initialIndex" | "nextSteps">,
-  ): Promise<void> {
-    await api.post("/workflow/createStep", {
+  ): Promise<Workflow> {
+    const response = await api.post("/workflow/createStep", {
       wfName,
       stepName: step.name,
       x: step.x,
       y: step.y,
       color: step.color,
     });
+    return response.data;
   },
 
-  async deleteStep(wfName: string, stepInitialIndex: number): Promise<void> {
-    await api.post("/workflow/deleteStep", { wfName, stepInitialIndex });
+  async deleteStep(
+    wfName: string,
+    stepInitialIndex: number,
+  ): Promise<Workflow> {
+    const response = await api.post("/workflow/deleteStep", {
+      wfName,
+      stepInitialIndex,
+    });
+    return response.data;
   },
 };

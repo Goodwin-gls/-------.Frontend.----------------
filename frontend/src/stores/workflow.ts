@@ -65,13 +65,15 @@ export const useWorkflowStore = defineStore("workflow", () => {
     y: number,
   ) {
     try {
-      await workflowApi.changeStepXY(workflowName.value, initialIndex, x, y);
-      const step = steps.value.find((s) => s.initialIndex === initialIndex);
-      if (step) {
-        step.x = x;
-        step.y = y;
-      }
+      const workflow = await workflowApi.changeStepXY(
+        workflowName.value,
+        initialIndex,
+        x,
+        y,
+      );
+      steps.value = workflow.steps;
     } catch (error) {
+      steps.value = [...steps.value]; // Trigger reactivity
       console.error("Failed to update step coordinates:", error);
       throw error;
     }
@@ -87,11 +89,12 @@ export const useWorkflowStore = defineStore("workflow", () => {
     }
 
     try {
-      await workflowApi.changeStepName(workflowName.value, initialIndex, name);
-      const step = steps.value.find((s) => s.initialIndex === initialIndex);
-      if (step) {
-        step.name = name;
-      }
+      const workflow = await workflowApi.changeStepName(
+        workflowName.value,
+        initialIndex,
+        name,
+      );
+      steps.value = workflow.steps;
     } catch (error) {
       console.error("Failed to update step name:", error);
       throw error;
@@ -117,8 +120,11 @@ export const useWorkflowStore = defineStore("workflow", () => {
     };
 
     try {
-      await workflowApi.createStep(workflowName.value, newStep);
-      await fetchSteps(); // Reload to get the new step with its initialIndex
+      const workflow = await workflowApi.createStep(
+        workflowName.value,
+        newStep,
+      );
+      steps.value = workflow.steps;
     } catch (error) {
       console.error("Failed to add step:", error);
       throw error;
@@ -127,14 +133,11 @@ export const useWorkflowStore = defineStore("workflow", () => {
 
   async function deleteStep(initialIndex: number) {
     try {
-      await workflowApi.deleteStep(workflowName.value, initialIndex);
-      steps.value = steps.value.filter((s) => s.initialIndex !== initialIndex);
-
-      // Remove references from other steps
-      steps.value.forEach((step) => {
-        step.nextSteps = step.nextSteps.filter((id) => id !== initialIndex);
-      });
-
+      const workflow = await workflowApi.deleteStep(
+        workflowName.value,
+        initialIndex,
+      );
+      steps.value = workflow.steps;
       if (selectedStepId.value === initialIndex) {
         selectedStepId.value = null;
       }

@@ -50,7 +50,7 @@ const showEditDialog = (initialIndex: number) => {
           >
             Состояние
             <WorkflowTableSort
-              v-if="store.sortConfig.column === 'name'"
+              v-if="store.sortConfig && store.sortConfig.column === 'name'"
               :direction="store.sortConfig.direction"
             />
           </th>
@@ -60,7 +60,7 @@ const showEditDialog = (initialIndex: number) => {
           >
             x
             <WorkflowTableSort
-              v-if="store.sortConfig.column === 'x'"
+              v-if="store.sortConfig && store.sortConfig.column === 'x'"
               :direction="store.sortConfig.direction"
             />
           </th>
@@ -70,7 +70,7 @@ const showEditDialog = (initialIndex: number) => {
           >
             y
             <WorkflowTableSort
-              v-if="store.sortConfig.column === 'y'"
+              v-if="store.sortConfig && store.sortConfig.column === 'y'"
               :direction="store.sortConfig.direction"
             />
           </th>
@@ -80,7 +80,7 @@ const showEditDialog = (initialIndex: number) => {
       </thead>
       <tbody :class="$style.tbody">
         <tr
-          v-for="step in store.filteredSteps"
+          v-for="step in store.sortedFilteredSteps"
           :key="step.initialIndex"
           :class="[
             $style.row,

@@ -9,7 +9,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
   const selectedStepId = ref<number | null>(null);
   const loading = ref(false);
   const searchQuery = ref("");
-  const sortConfig = ref<SortConfig>({ column: "name", direction: "asc" });
+  const sortConfig = ref<SortConfig | null>(null);
   const workflowName = ref("wf1");
 
   // Getters
@@ -34,9 +34,13 @@ export const useWorkflowStore = defineStore("workflow", () => {
       result = result.filter((step) => step.name.toLowerCase().includes(query));
     }
 
-    // Sort
-    result = [...result].sort((a, b) => {
-      const { column, direction } = sortConfig.value;
+    return result;
+  });
+
+  const sortedFilteredSteps = computed(() => {
+    if (sortConfig.value === null) return filteredSteps.value;
+    const { column, direction } = sortConfig.value;
+    return [...filteredSteps.value].sort((a, b) => {
       let aVal: any = a[column as keyof WorkflowStep];
       let bVal: any = b[column as keyof WorkflowStep];
 
@@ -53,10 +57,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
       if (aVal > bVal) return direction === "asc" ? 1 : -1;
       return 0;
     });
-
-    return result;
   });
-
   // Actions
   async function fetchSteps() {
     loading.value = true;
@@ -162,7 +163,8 @@ export const useWorkflowStore = defineStore("workflow", () => {
 
   function setSortConfig(column: string) {
     const direction =
-      sortConfig.value.column === column && sortConfig.value.direction === "asc"
+      sortConfig.value?.column === column &&
+      sortConfig.value?.direction === "asc"
         ? "desc"
         : "asc";
     sortConfig.value = { column, direction };
@@ -190,6 +192,7 @@ export const useWorkflowStore = defineStore("workflow", () => {
     sortConfig,
     selectedStep,
     filteredSteps,
+    sortedFilteredSteps,
     workflowName,
     fetchSteps,
     updateStepCoordinates,
